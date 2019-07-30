@@ -1723,6 +1723,19 @@ owncloud__php_max_children: '50'
 #   Role-dependent configuration
 # --------------------------------
 
+
+# .. envvar:: owncloud__system_groups__dependent_list [[[
+#
+# System Groups configuration for the :ref:`debops.system_groups` Ansible role.
+# Make configuration management user member of the `www-data` group
+# in order to collect the necessary ansible facts.
+owncloud__system_groups__dependent_list:
+  - name: 'www-data'
+    members: '{{ ansible_local.core.admin_users
+                 if (ansible_local|d() and ansible_local.core|d() and
+                     ansible_local.core.admin_users|d())
+                 else [] }}'
+
 # .. envvar:: owncloud__apt_preferences__dependent_list
 #
 # Configuration for the :ref:`debops.apt_preferences` role.
